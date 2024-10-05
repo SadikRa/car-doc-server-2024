@@ -28,6 +28,20 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+    const carCollection = client.db('carDB').collection('car');
+
+    app.post('/car', async (req, res) => {
+      try {
+        const data = req.body;
+        const result = await carCollection.insertOne(data);
+        res.send(result);
+      } catch (error) {
+        res.status(500).send({ error: 'An error occurred while inserting the data' });
+      }
+    });
+    
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
