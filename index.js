@@ -40,7 +40,12 @@ async function run() {
         res.status(500).send({ error: 'An error occurred while inserting the data' });
       }
     });
-    
+
+    app.get('/car', async(req, res) => {
+      const data =  carCollection.find();
+      const result = await data.toArray();
+      res.send(result)
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
